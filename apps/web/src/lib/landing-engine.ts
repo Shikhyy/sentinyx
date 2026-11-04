@@ -355,7 +355,7 @@ export function initLanding(root: HTMLElement): () => void {
         cleanups.push(() => clearInterval(id));
       }
     }
-    bigTag.textContent = idx >= rows.length - 1 ? "Do not obey" : "Reading";
+    bigTag.textContent = idx >= rows.length - 1 ? rows[rows.length - 1].dataset.st || "Done" : "Reading";
   }
 
   /* ---------- dissolve bands ---------- */
