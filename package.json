@@ -1,0 +1,10 @@
+{
+  "name": "sentinyx",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "workspaces": ["packages/*", "apps/*", "contracts"],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "scan": "npm run scan -w @sentinyx/scanner --"
+  }
+}
