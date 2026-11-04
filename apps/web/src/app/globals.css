@@ -367,3 +367,12 @@ footer.site{background:var(--night);color:var(--night-ink);overflow:hidden}
 .pal-hint kbd{font-family:var(--mono);font-size:11.5px;color:var(--night-ash);border-left:1px solid rgba(233,230,223,.22);padding-left:10px}
 .pal-hint:hover{background:var(--night-ink);color:var(--night)}
 .pal-hint:hover kbd{color:var(--night)}
+
+/* Tickets: totals on a perforated card, one stub below */
+.ticket{position:relative;border:1.5px solid var(--graphite);border-radius:12px}
+.ticket .totals{padding:30px clamp(18px,3vw,36px) 26px;border-bottom:0}
+.ticket-stub{position:relative;border-top:1.5px dashed var(--graphite);padding:16px clamp(18px,3vw,36px) 18px}
+.ticket-stub .ledger-note{margin:0}
+.ticket-stub::before,.ticket-stub::after{content:"";position:absolute;top:-12px;width:23px;height:23px;border-radius:50%;background:var(--bone);border:1.5px solid var(--graphite)}
+.ticket-stub::before{left:-13px;clip-path:inset(0 0 0 50%)}
+.ticket-stub::after{right:-13px;clip-path:inset(0 50% 0 0)}

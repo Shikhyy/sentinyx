@@ -31,11 +31,16 @@ export default async function GuardHome() {
           </p>
         ) : null}
 
-        <div className="totals" style={{ marginTop: 40 }}>
-          <Total n={sum.checked} label="Checked" />
-          <Total n={sum.blocked} label="Blocked" dot />
-          <Total n={sum.held} label="Held for you" />
-          <Total n={sum.allowed} label="Allowed" />
+        <div className="ticket" style={{ marginTop: 40 }}>
+          <div className="totals">
+            <Total n={sum.checked} label="Checked" />
+            <Total n={sum.blocked} label="Blocked" dot />
+            <Total n={sum.held} label="Held for you" />
+            <Total n={sum.allowed} label="Allowed" />
+          </div>
+          <div className="ticket-stub">
+            <p className="ledger-note">Blocked means Guard denied the action before it ran. Held means it is waiting for you. Neither was signed or run.</p>
+          </div>
         </div>
       </section>
 

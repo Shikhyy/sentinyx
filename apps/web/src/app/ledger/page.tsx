@@ -49,6 +49,7 @@ export default async function LedgerPage({ searchParams }: Props) {
       ) : (
         <>
           <section className="ledger-sec">
+            <div className="ticket">
             <div className="totals">
               <Total n={String(summary.scanned)} label="Items scanned" />
               <Total n={String(summary.flagged)} label="Flagged" dot={summary.flagged > 0} />
@@ -60,11 +61,14 @@ export default async function LedgerPage({ searchParams }: Props) {
                 note={summary.precision === null ? "No hand-labelled sample yet" : `${summary.labelled} labelled`}
               />
             </div>
+            <div className="ticket-stub">
             <p className="ledger-note">
               {summary.suspicious} more were suspicious. {summary.partial > 0 ? `${summary.partial} had fields we could not read. ` : ""}
               Many new tokens publish little text beyond a name and symbol, so a clean result means nothing readable was addressed to agents.
               {summary.flagged === 0 && summary.suspicious === 0 ? " Finding nothing is a valid result, and we publish it." : ""}
             </p>
+            </div>
+            </div>
           </section>
 
           <section className="ledger-sec">
