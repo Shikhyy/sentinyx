@@ -156,3 +156,72 @@ func TestUnknownCommandStillFails(t *testing.T) {
 		t.Fatalf("exit %d, want 64", code)
 	}
 }
+
+func checkAPI(t *testing.T, status int, body string) string {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/check" || r.URL.Query().Get("target") == "" {
+			w.WriteHeader(404)
+			return
+		}
+		w.WriteHeader(status)
+		w.Write([]byte(body))
+	}))
+	t.Cleanup(srv.Close)
+	return srv.URL
+}
+
+func runToken(args ...string) (int, string, string) {
+	var out, errb bytes.Buffer
+	code := Main(append([]string{"check", "token"}, args...), &out, &errb)
+	return code, out.String(), errb.String()
+}
+
+func TestCheckTokenExitCodes(t *testing.T) {
+	cases := []struct {
+		name   string
+		status int
+		body   string
+		want   int
+	}{
+		{"allow", 200, `{"action":"allow","verdict":"clean","complete":true,"report":"x"}`, 0},
+		{"hold", 200, `{"action":"hold","verdict":"suspicious","complete":true}`, 3},
+		{"deny", 200, `{"action":"deny","verdict":"flagged","complete":true}`, 2},
+		{"unknown action fails closed", 200, `{"action":"maybe"}`, 3},
+		{"garbage fails closed", 200, `not json`, 3},
+		{"server error fails closed", 500, `{"error":"The scan failed."}`, 3},
+		{"rate limit fails closed", 429, `{"error":"Too many scans."}`, 3},
+		{"bad target is a usage error", 400, `{"error":"Paste a Base contract"}`, 64},
+	}
+	for _, c := range cases {
+		api := checkAPI(t, c.status, c.body)
+		code, _, _ := runToken("--api", api, token)
+		if code != c.want {
+			t.Errorf("%s: exit %d, want %d", c.name, code, c.want)
+		}
+	}
+}
+
+func TestCheckTokenUnreachableHolds(t *testing.T) {
+	if code, _, _ := runToken("--api", "http://127.0.0.1:1", token); code != 3 {
+		t.Fatalf("exit %d, want 3", code)
+	}
+}
+
+func TestCheckTokenNeedsOneTarget(t *testing.T) {
+	if code, _, _ := runToken(); code != 64 {
+		t.Fatalf("exit %d, want 64", code)
+	}
+}
+
+func TestCheckTokenPassesChainAndEscapesTarget(t *testing.T) {
+	var got string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		got = r.URL.RawQuery
+		w.Write([]byte(`{"action":"allow","complete":true}`))
+	}))
+	defer srv.Close()
+	runToken("--api", srv.URL, "--chain", "base-sepolia", "a b&c=d.eth")
+	if !strings.Contains(got, "chain=base-sepolia") || strings.Contains(got, "&c=d") {
+		t.Fatalf("query not built safely: %q", got)
+	}
+}

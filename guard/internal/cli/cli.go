@@ -32,6 +32,7 @@ const usage = `sentinyx - provenance guard for AI agents
   sentinyx rpc --upstream <url> [flags]              JSON-RPC proxy for Base
   sentinyx check pkg <name> [flags]                  npm registry + taint check
   sentinyx check tx <raw-tx-or-calldata> [flags]     decode and check a transaction
+  sentinyx check token <address|name> [--chain base]  ask Sentinyx if a token's text is safe to read
   sentinyx version                                   print the build version
 
 common flags: --agent NAME  --trace FILE  --taint-file FILE  --allow 0xADDR (repeatable)
@@ -106,6 +107,9 @@ func Main(args []string, stdout, stderr io.Writer) int {
 		if len(args) < 2 {
 			fmt.Fprint(stderr, usage)
 			return 64
+		}
+		if args[1] == "token" {
+			return checkToken(args[2:], stdout, stderr)
 		}
 		return check(args[1], args[2:], stdout, stderr)
 	}
