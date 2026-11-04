@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "deploy": "node scripts/deploy.mjs",
-    "test": "node scripts/build.mjs && vitest run"
+    "test": "npm run build -w @sentinyx/scanner && node scripts/build.mjs && vitest run"
   },
   "dependencies": {
     "solc": "0.8.36",

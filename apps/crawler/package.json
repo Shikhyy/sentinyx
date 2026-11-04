@@ -10,7 +10,8 @@
     "test": "vitest run",
     "crawl": "tsx src/cli.ts crawl",
     "review": "tsx src/cli.ts review",
-    "label": "tsx src/cli.ts label"
+    "label": "tsx src/cli.ts label",
+    "pretest": "npm run build -w @sentinyx/scanner && npm run build -w @sentinyx/store"
   },
   "dependencies": {
     "@sentinyx/scanner": "*",

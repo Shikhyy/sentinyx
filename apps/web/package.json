@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "lab:record": "node scripts/lab/record.mjs",
     "lab:upload": "node scripts/lab/upload.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pretest": "npm run build -w @sentinyx/scanner && npm run build -w @sentinyx/store && npm run build -w @sentinyx/crawler"
   },
   "dependencies": {
     "@sentinyx/crawler": "*",
