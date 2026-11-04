@@ -1,0 +1,33 @@
+{
+  "name": "@sentinyx/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "npm run build -w @sentinyx/scanner && npm run build -w @sentinyx/store && npm run build -w @sentinyx/crawler",
+    "dev": "next dev",
+    "prebuild": "npm run build -w @sentinyx/scanner && npm run build -w @sentinyx/store && npm run build -w @sentinyx/crawler",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lab:record": "node scripts/lab/record.mjs",
+    "lab:upload": "node scripts/lab/upload.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@sentinyx/crawler": "*",
+    "@sentinyx/scanner": "*",
+    "@sentinyx/store": "*",
+    "geist": "^1.9.0",
+    "next": "16.4.5",
+    "postgres": "^3.4.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^5.1.0"
+  }
+}
