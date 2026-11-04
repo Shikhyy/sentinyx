@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import type { ScanReport } from "@sentinyx/scanner";
-import { BAD_TARGET_COPY, EXAMPLES } from "@/lib/copy";
+import { BAD_TARGET_COPY, CHAIN_CHOICES, EXAMPLES, type ChainChoice } from "@/lib/copy";
 import { GLY, prefersReducedMotion } from "@/lib/scramble";
 import { ReceiptReveal } from "./ReceiptReveal";
 import { ReportReceipt } from "./ReportReceipt";
@@ -38,6 +38,7 @@ export function ScanPanel({ inline = false, children }: { inline?: boolean; chil
   const inputRef = useRef<HTMLInputElement>(null);
   const abort = useRef<AbortController | null>(null);
   const [value, setValue] = useState("");
+  const [chain, setChain] = useState<ChainChoice>("auto");
   const [state, setState] = useState<State>({ s: "idle" });
   const [slow, setSlow] = useState(false);
 
@@ -51,7 +52,7 @@ export function ScanPanel({ inline = false, children }: { inline?: boolean; chil
     return () => clearTimeout(id);
   }, [state.s]);
 
-  async function run(raw: string) {
+  async function run(raw: string, network: ChainChoice = chain) {
     const target = raw.trim();
     if (!target) {
       setState({ s: "error", message: BAD_TARGET_COPY });
@@ -65,7 +66,7 @@ export function ScanPanel({ inline = false, children }: { inline?: boolean; chil
       const res = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ target }),
+        body: JSON.stringify(network === "auto" ? { target } : { target, chain: network }),
         signal: ctrl.signal,
       });
       const data = await res.json().catch(() => ({}));
@@ -120,6 +121,22 @@ export function ScanPanel({ inline = false, children }: { inline?: boolean; chil
               {state.message}
             </p>
           ) : null}
+          <div className="chain-pick" role="radiogroup" aria-label="Network">
+            <span className="mono chain-label">Network</span>
+            {CHAIN_CHOICES.map((c) => (
+              <button
+                key={c.value}
+                type="button"
+                role="radio"
+                aria-checked={chain === c.value}
+                className={"mono" + (chain === c.value ? " on" : "")}
+                disabled={loading}
+                onClick={() => setChain(c.value)}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
           <div className="tries mono">
             {EXAMPLES.map((ex) => (
               <button
@@ -127,15 +144,17 @@ export function ScanPanel({ inline = false, children }: { inline?: boolean; chil
                 type="button"
                 disabled={loading}
                 onClick={() => {
+                  const network = ex.chain ?? "auto";
                   setValue(ex.value);
-                  void run(ex.value);
+                  setChain(network);
+                  void run(ex.value, network);
                 }}
               >
                 {ex.label}
               </button>
             ))}
           </div>
-          <span className="demo-note mono">Live scanner. Base and Base Sepolia. Reports get a shareable link.</span>
+          <span className="demo-note mono">Live scanner. Auto tries Base, then Base Sepolia. Reports get a shareable link.</span>
         </form>
       </div>
 

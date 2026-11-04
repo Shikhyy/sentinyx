@@ -86,3 +86,54 @@ describe("POST /api/scan handler", () => {
     expect(scanFn).not.toHaveBeenCalled();
   });
 });
+
+describe("choosing a network", () => {
+  const sepolia = (t: string): ScanReport => ({ ...report(t), chain: "base-sepolia", chainId: 84532 });
+
+  it("passes an explicit network to the scanner, and leaves it out for auto or nothing", async () => {
+    const calls: (string | undefined)[] = [];
+    const mk = () => ({ store: new MemoryStore(), scanFn: async (t: string, c?: string) => (calls.push(c), report(t)) });
+    const a = mk();
+    await handleScan({ target: ADDR, chain: "base-sepolia" }, "1.1.1.1", a as never);
+    const b = mk();
+    await handleScan({ target: ADDR, chain: "auto" }, "1.1.1.1", b as never);
+    const c = mk();
+    await handleScan({ target: ADDR }, "1.1.1.1", c as never);
+    expect(calls).toEqual(["base-sepolia", undefined, undefined]);
+  });
+
+  it("rejects anything that is not a known network, before any network call", async () => {
+    const scanFn = vi.fn(async (t: string) => report(t));
+    for (const chain of ["mainnet", "ethereum", 1, null, {}]) {
+      const res = await handleScan({ target: ADDR, chain }, "1.1.1.1", { store: new MemoryStore(), scanFn });
+      expect(res.status, JSON.stringify(chain)).toBe(400);
+      expect((res.body as { error: string }).error).toBe("Choose Base or Base Sepolia.");
+    }
+    expect(scanFn).not.toHaveBeenCalled();
+  });
+
+  it("does not serve a Base report when Base Sepolia was asked for (cache is per network)", async () => {
+    const store = new MemoryStore();
+    const scanFn = vi.fn(async (t: string, c?: string) => (c === "base-sepolia" ? sepolia(t) : report(t)));
+    const first = await handleScan({ target: ADDR }, "1.1.1.1", { store, scanFn }); // auto: found on Base
+    const second = await handleScan({ target: ADDR, chain: "base-sepolia" }, "1.1.1.1", { store, scanFn });
+    expect(scanFn).toHaveBeenCalledTimes(2);
+    if (first.status === 200 && second.status === 200) {
+      expect(second.body.chain).toBe("base-sepolia");
+      expect(second.body.cached).toBe(false);
+      expect(second.body.id).not.toBe(first.body.id);
+    }
+    // and asking for the same network again does use the cache
+    const third = await handleScan({ target: ADDR, chain: "base-sepolia" }, "1.1.1.1", { store, scanFn });
+    if (third.status === 200) expect(third.body.cached).toBe(true);
+  });
+
+  it("ignores a network choice for names, which resolve on Ethereum", async () => {
+    const calls: (string | undefined)[] = [];
+    await handleScan({ target: "jesse.base.eth", chain: "base-sepolia" }, "1.1.1.1", {
+      store: new MemoryStore(),
+      scanFn: async (t, c) => (calls.push(c), { ...report(t), kind: "name" }),
+    });
+    expect(calls).toEqual([undefined]);
+  });
+});
