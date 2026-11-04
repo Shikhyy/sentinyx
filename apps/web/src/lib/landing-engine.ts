@@ -96,24 +96,19 @@ export function initLanding(root: HTMLElement): () => void {
     cleanups.push(cancel);
   };
 
-  /* load sequence */
+  /* load sequence: starts once the site loader has lifted (or at once when there is none) */
   const kicker = q(".kicker");
-  const lines = qa(".copy h1 .line");
-  const finals = lines.map((l) => l.textContent || "");
-  if (!reduce) lines.forEach((l) => (l.textContent = (l.textContent || "").replace(/[^ ]/g, "·")));
   let started = false;
   const intro = () => {
     if (started || !alive) return;
     started = true;
     root.classList.add("loaded");
     scrambleTo(kicker, "Prompt-injection scanner for Base", 600);
-    lines.forEach((l, i) => later(() => scrambleTo(l, finals[i], 750), 200 + i * 180));
   };
-  addEventListener("load", intro);
-  cleanups.push(() => removeEventListener("load", intro));
-  if (document.readyState === "complete") intro();
-  later(intro, 1800);
-  cleanups.push(() => lines.forEach((l, i) => (l.textContent = finals[i])));
+  if (document.documentElement.dataset.sxReady === "1") intro();
+  else addEventListener("sx:ready", intro);
+  cleanups.push(() => removeEventListener("sx:ready", intro));
+  later(intro, 5000);
 
   /* ---------- radar: rings pre-rendered into two layers ---------- */
   const pin = q("#pin");

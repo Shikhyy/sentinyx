@@ -12,7 +12,7 @@ export function Landing() {
   return (
     <main id="main" ref={root}>
       <noscript>
-        <style>{`.lede,.copy .btns{opacity:1!important;transform:none!important}.step{opacity:1!important;transform:none!important}`}</style>
+        <style>{`.lede,.copy .btns,.copy h1 .line{opacity:1!important;transform:none!important}.step{opacity:1!important;transform:none!important}`}</style>
       </noscript>
 
       <section className="pin" id="pin">

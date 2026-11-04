@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
+import { Loader } from "@/components/Loader";
 import { Nav } from "@/components/Nav";
 import "./globals.css";
 
@@ -22,8 +24,12 @@ export const viewport: Viewport = { viewportFit: "cover", width: "device-width",
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
+        <Script id="sx-seen" strategy="beforeInteractive">
+          {"try{if(sessionStorage.getItem('sx-seen'))document.documentElement.dataset.sx='seen'}catch(e){}"}
+        </Script>
+        <Loader />
         <a className="skip" href="#main">
           Skip to content
         </a>
