@@ -24,7 +24,7 @@ export class MemoryStore implements Store {
     const since = Date.now() - maxAgeMs;
     let best: StoredScan | null = null;
     for (const s of this.scans.values()) {
-      if (s.report.target === target && Date.parse(s.createdAt) >= since && (!best || s.createdAt > best.createdAt)) best = s;
+      if (s.report.target === target && Date.parse(s.createdAt) >= since && (!best || s.createdAt >= best.createdAt)) best = s; // a tie goes to the later save, like an ordered query would
     }
     return best;
   }
