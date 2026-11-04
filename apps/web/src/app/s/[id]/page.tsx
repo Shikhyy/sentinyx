@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CodeBlock } from "@/components/CodeBlock";
 import { CopyLink, FalsePositive, ShareOnX } from "@/components/ReportActions";
 import { ReceiptReveal } from "@/components/ReceiptReveal";
 import { ReportReceipt } from "@/components/ReportReceipt";
 import { chainLabel, kindLabel, numeral, reasons, safeText, shortTarget, verdictCopy, verdictWord } from "@/lib/report-view";
 import { loadScan } from "./load";
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -103,6 +106,18 @@ export default async function ReportPage({ params }: Props) {
                 From the Night Ledger. Addresses inside the scanned text are masked until a person reviews this entry.
               </p>
             ) : null}
+
+            <div className="embed">
+              <h2 className="mono">Show this on your project</h2>
+              <p>A live badge for a README or site. Or ask the same question from code with <code>/api/check</code>.</p>
+              <CodeBlock
+                label="Markdown"
+                code={`[![Sentinyx scan](${SITE}/badge/${encodeURIComponent(r.target)}.svg)](${SITE}/scan?target=${encodeURIComponent(r.target)})`}
+              />
+              <Link className="mono embed-more" href="/use">
+                More ways to use it →
+              </Link>
+            </div>
 
             <div className="method mono">
               <div>Method {r.method}</div>

@@ -17,6 +17,7 @@ const COLUMNS: { title: string; items: Item[] }[] = [
     items: [
       { label: "Scan", href: "/scan" },
       { label: "Night Ledger", href: "/ledger" },
+      { label: "Use it", href: "/use" },
       { label: "Guard", href: "/guard" },
       { label: "Attack Lab", href: "/guard/lab" },
     ],

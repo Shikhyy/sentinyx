@@ -12,6 +12,7 @@ export interface Command {
 
 export const COMMANDS: Command[] = [
   { id: "scan", label: "Scan", hint: "Page", href: "/scan", keywords: "paste address token nft name check" },
+  { id: "use", label: "Use it: API and badge", hint: "Page", href: "/use", keywords: "api check badge embed curl developers build integrate" },
   { id: "ledger", label: "Night Ledger", hint: "Page", href: "/ledger", keywords: "crawl nightly open data tokens" },
   { id: "guard", label: "Guard: Morning brief", hint: "Page", href: "/guard", keywords: "agents shift blocked held overview" },
   { id: "lab", label: "Attack Lab", hint: "Page", href: "/guard/lab", keywords: "demo attack injection guard on off" },
