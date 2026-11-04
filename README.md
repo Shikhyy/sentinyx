@@ -88,6 +88,18 @@ not a full all-clear.
 only; every IP-address spelling refused; hostnames resolved and refused if they point at a private address; no redirects; 256 KB and
 6 s caps. IPFS is tried on several public gateways because they rate-limit.
 
+### Use it from code
+
+- `GET /api/check?target=…[&chain=base|base-sepolia]` runs the same scan and returns a small answer: `verdict`, `action` (`allow`, `hold` or
+  `deny`, the words Guard uses), `complete`, and `findings` as `{where, rule, severity}`. It never repeats the scanned text, because an
+  agent may read the response. Open to any origin; the same per-IP limit as `/api/scan` applies to new scans.
+- `GET /badge/<target>.svg` is a live badge. It only reads the latest stored scan and never starts one, so embedding it can't be used to
+  make the service scan things. `/scan?target=…` opens the scanner already filled in and running.
+- `GET /ledger/feed.xml` is an Atom feed of flagged and suspicious Ledger items, with the same masked excerpts as the table.
+- `sentinyx check token <address|name>` asks the API and exits 0 allow, 2 deny, 3 hold (also for any error). Set `SENTINYX_API` to point it elsewhere.
+
+The `/use` page walks through all of this with copyable examples.
+
 ### Night Ledger
 
 Each night (03:00 UTC through Vercel Cron, or `npm run crawl`) the crawler takes the newest tokens that started trading on Base
