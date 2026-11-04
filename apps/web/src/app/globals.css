@@ -34,7 +34,8 @@ canvas{display:block}
 .logo-wrap canvas{width:28px;height:28px}
 .nav-links{display:flex;flex:1 1 auto;overflow-x:auto;scrollbar-width:none}
 .nav-links::-webkit-scrollbar{display:none}
-.nav-name{flex:0 0 auto;margin-left:auto;padding:0 14px 0 10px;display:inline-flex;align-items:center;min-height:44px;font-family:var(--sans);font-weight:500;font-size:18px;letter-spacing:-.03em;color:#E9E6DF;text-decoration:none;white-space:nowrap}
+.nav-name{flex:0 0 auto;margin-left:auto;margin-right:2px;padding:0 14px 0 16px;display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-weight:500;text-transform:uppercase;font-size:12.5px;letter-spacing:.2em;color:#F1EEE7;text-decoration:none;white-space:nowrap;border-left:1px solid #2E2D2B;transition:color .2s}
+.nav-name:hover{color:#fff}
 @media (max-width:640px){.nav-name{display:none}}
 .nav a.link{font-family:var(--mono);text-transform:uppercase;font-size:12.5px;text-decoration:none;padding:0 12px;min-height:44px;display:inline-flex;align-items:center;border-radius:7px;color:#CFCBC2;white-space:nowrap;transition:background .2s,color .2s}
 .nav a.link:hover,.nav a.link[aria-current="true"],.nav a.link[aria-current="page"]{background:#2E2D2B;color:#F1EEE7}
