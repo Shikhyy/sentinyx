@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FooterBand } from "./FooterBand";
+import { PaletteHint } from "./PaletteHint";
 import { Wordmark } from "./Wordmark";
 
 const REPO = process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/Shikhyy/sentinyx";
@@ -91,6 +92,7 @@ export function Footer() {
 
       <div className="foot-bar mono">
         <span>© {new Date().getFullYear()} Sentinyx · Built for Vibeathon 02</span>
+        <PaletteHint />
         <span>Scans can be wrong. Every report has a form to report a false positive.</span>
       </div>
 

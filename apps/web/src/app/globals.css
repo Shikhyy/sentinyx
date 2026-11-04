@@ -342,3 +342,28 @@ footer.site{background:var(--night);color:var(--night-ink);overflow:hidden}
   .shift{padding:36px 22px 44px}
   .lab-canvas{height:210px}
 }
+
+/* Command palette */
+.pal-backdrop{position:fixed;inset:0;z-index:40;background:rgba(10,10,9,.6);display:flex;justify-content:center;align-items:flex-start;padding:14vh 12px 0}
+.pal{width:min(640px,100%);min-width:0;max-width:100%;box-sizing:border-box;background:var(--night);color:var(--night-ink);border-radius:12px;border:1px solid #2C2B29;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden}
+.pal-top{padding:16px 20px 12px;border-bottom:1px dashed rgba(233,230,223,.22)}
+.pal-label{display:block;font-size:12px;color:var(--night-ash);margin-bottom:6px}
+.pal-input{width:100%;background:transparent;border:0;outline:none;color:var(--night-ink);font-family:var(--sans);font-size:clamp(17px,2.1vw,21px);letter-spacing:-.015em;padding:4px 0}
+.pal-input::placeholder{color:var(--night-ash);opacity:.7}
+.pal-input:focus-visible{outline:none}
+.pal-top:focus-within{box-shadow:inset 0 -2px 0 var(--signal)}
+.pal-list{list-style:none;margin:0;padding:6px 10px;max-height:min(46vh,360px);overflow:auto}
+.pal-group{font-size:11.5px;color:var(--night-ash);padding:10px 10px 4px}
+.pal-row>span:first-child{min-width:0;overflow-wrap:anywhere}
+.pal-row>span:last-child{flex:0 0 auto;white-space:nowrap}
+.pal-row{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 10px;border-radius:5px;font-size:13px;cursor:pointer}
+.pal-row .lead{flex:1 1 auto;border-bottom:1px dotted currentColor;opacity:.28;min-width:12px;transform:translateY(3px)}
+.pal-row.on{background:var(--night-ink);color:var(--night)}
+.pal-empty{padding:14px 10px;color:var(--night-ash);font-size:14.5px}
+.pal-foot{padding:12px 20px 14px;font-size:12px;color:var(--night-ash);border-top:1px dashed rgba(233,230,223,.22);min-height:44px;display:flex;align-items:center}
+.pal-err{color:var(--night-ink)}
+.pal-err::before{content:"";display:inline-block;width:6px;height:6px;border-radius:99px;background:var(--signal);margin-right:8px;vertical-align:2px}
+.pal-hint{background:transparent;border:1px solid rgba(233,230,223,.22);color:var(--night-ink);border-radius:6px;padding:0 12px;min-height:44px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.pal-hint kbd{font-family:var(--mono);font-size:11.5px;color:var(--night-ash);border-left:1px solid rgba(233,230,223,.22);padding-left:10px}
+.pal-hint:hover{background:var(--night-ink);color:var(--night)}
+.pal-hint:hover kbd{color:var(--night)}
