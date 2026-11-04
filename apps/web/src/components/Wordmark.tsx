@@ -21,7 +21,7 @@ export function Wordmark() {
     return () => io.disconnect();
   }, []);
   return (
-    <div className="wordmark" ref={ref} aria-label="Sentinyx">
+    <div className="wordmark" ref={ref} aria-hidden="true">
       Sentinyx
     </div>
   );
