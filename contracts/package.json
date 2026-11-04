@@ -1,0 +1,19 @@
+{
+  "name": "@sentinyx/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "test": "node scripts/build.mjs && vitest run"
+  },
+  "dependencies": {
+    "solc": "0.8.36",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@sentinyx/scanner": "*",
+    "vitest": "^5.1.0"
+  }
+}
