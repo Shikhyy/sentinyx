@@ -72,6 +72,9 @@ h1 .line{display:block}
 .enter .mono{font-size:13px;color:var(--ash)}
 @media (max-width:860px),(prefers-reduced-motion:reduce){.enter{display:none}}
 .legend{position:absolute;right:20px;bottom:18px;z-index:3;font-size:11px;color:#8C8982;display:flex;gap:14px;opacity:calc(1 - var(--p) * 2.4)}
+.stage{cursor:grab}
+.stage.holding{cursor:grabbing;user-select:none}
+.holdout{opacity:clamp(0,calc(var(--hold,0) * 3),1);transition:opacity .15s;font-variant-numeric:tabular-nums}
 .legend b{font-weight:400;color:#F1EEE7;background:var(--signal);padding:1px 5px;border-radius:3px}
 
 /* scrubbed receipt */

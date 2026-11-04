@@ -182,8 +182,53 @@ export function initLanding(root: HTMLElement): () => void {
     layers = { imgs, rmax, size, inj };
   }
 
+  // Press and hold the rings and the sweep speeds up (so hidden orders light up more often) and the two ring groups wind
+  // against each other. Angles are accumulated, not derived from the clock, so the speed change never makes anything jump.
+  let hold = 0;
+  let holdTarget = 0;
+  let lastT = 0;
+  let sweepAcc = 0;
+  const rotAcc = [0, 0];
+  let shownX = -1;
+  const sweepX = root.querySelector<HTMLElement>("#sweepX");
+  const onDown = (e: PointerEvent) => {
+    if (reduce || (e.pointerType === "mouse" && e.button !== 0)) return;
+    if ((e.target as Element).closest("a,button,input,textarea,select")) return;
+    holdTarget = 1;
+    stage.classList.add("holding");
+  };
+  const onUp = () => {
+    holdTarget = 0;
+    stage.classList.remove("holding");
+  };
+  stage.addEventListener("pointerdown", onDown);
+  addEventListener("pointerup", onUp);
+  addEventListener("pointercancel", onUp);
+  addEventListener("blur", onUp);
+  cleanups.push(() => {
+    stage.removeEventListener("pointerdown", onDown);
+    removeEventListener("pointerup", onUp);
+    removeEventListener("pointercancel", onUp);
+    removeEventListener("blur", onUp);
+    stage.classList.remove("holding");
+  });
+
   function drawRadar(t: number) {
     if (!layers) return;
+    const dt = lastT ? Math.min(100, Math.max(0, t - lastT)) : 0;
+    lastT = t;
+    hold += (holdTarget - hold) * (1 - Math.exp(-dt / 260));
+    sweepAcc += dt * 0.0011 * (1 + hold * 3.5);
+    rotAcc[0] += dt * 0.00007 * (1 + hold * 7);
+    rotAcc[1] -= dt * 0.00005 * (1 + hold * 9);
+    if (sweepX) {
+      const x = Math.round((1 + hold * 3.5) * 10) / 10;
+      if (x !== shownX) {
+        shownX = x;
+        sweepX.textContent = x.toFixed(1);
+        stage.style.setProperty("--hold", hold.toFixed(2));
+      }
+    }
     const { ctx, W, H } = R;
     ctx.clearRect(0, 0, W, H);
     const mobile = narrow();
@@ -192,9 +237,9 @@ export function initLanding(root: HTMLElement): () => void {
     const left = mobile ? 0 : W * (0.5 - 0.5 * qq);
     const cx = (left + W) / 2 + ptr.x * 22;
     const cy = H / 2 + ptr.y * 22;
-    const zoom = 1 + qq * 0.45 + s * 2.2;
-    const sweep = (t * 0.0011) % (Math.PI * 2);
-    const rot = [t * 0.00007, -t * 0.00005];
+    const zoom = 1 + qq * 0.45 + s * 2.2 + hold * 0.03;
+    const sweep = sweepAcc % (Math.PI * 2);
+    const rot = rotAcc;
     const { imgs, rmax, size, inj } = layers;
     for (let g = 0; g < 2; g++) {
       ctx.save();

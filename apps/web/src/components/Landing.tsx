@@ -46,7 +46,7 @@ export function Landing() {
             <span className="bar">
               <i />
             </span>
-            Scroll to zoom in
+            Scroll to zoom in · Press and hold the rings
           </div>
           {/* Shown while the disc fills the screen, so the zoom never goes blank. Decorative: the next section says it properly. */}
           <div className="enter" aria-hidden="true">
@@ -55,6 +55,9 @@ export function Landing() {
             <span className="mono">Keep scrolling ↓</span>
           </div>
           <div className="legend mono">
+            <span className="holdout">
+              Sweep ×<span id="sweepX">1.0</span>
+            </span>
             <span>
               <b>Hidden order</b> lit by the sweep
             </span>
