@@ -5,7 +5,7 @@ import type { Store } from "./types.js";
 export * from "./types.js";
 export * from "./ids.js";
 export { MemoryStore } from "./memory.js";
-export { PgStore } from "./pg.js";
+export { PgStore, cleanDatabaseUrl } from "./pg.js";
 export { summarize } from "./summary.js";
 
 const g = globalThis as unknown as { __sentinyxStore?: Store };

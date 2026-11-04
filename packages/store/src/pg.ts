@@ -4,6 +4,24 @@ import type { CrawlRow, TraceEntry, TraceFilter, CrawlStats, EntryFilter, Label,
 
 const iso = (d: unknown) => new Date(d as string).toISOString();
 
+/**
+ * Hosted Postgres providers (Neon among them) hand out URLs with libpq-only options such as `channel_binding=require`.
+ * The postgres.js driver forwards any query parameter it does not know to the server as a startup parameter, and a pooler
+ * rejects those. Drop the ones the driver cannot use and leave everything else (notably `sslmode`) alone.
+ */
+const LIBPQ_ONLY = ["channel_binding"];
+export function cleanDatabaseUrl(raw: string): string {
+  let u: URL;
+  try {
+    u = new URL(raw);
+  } catch {
+    return raw; // not a URL (for example a socket path): let the driver deal with it
+  }
+  let changed = false;
+  for (const k of LIBPQ_ONLY) if (u.searchParams.has(k)) (u.searchParams.delete(k), (changed = true));
+  return changed ? u.toString() : raw;
+}
+
 export class PgStore implements Store {
   readonly kind = "postgres" as const;
   private sql: postgres.Sql;
@@ -11,7 +29,7 @@ export class PgStore implements Store {
 
   constructor(url: string, opts: { max?: number } = {}) {
     // prepare:false keeps this working behind transaction-mode poolers (Neon, Supabase).
-    this.sql = postgres(url, { max: opts.max ?? 3, idle_timeout: 20, connect_timeout: 8, prepare: false });
+    this.sql = postgres(cleanDatabaseUrl(url), { max: opts.max ?? 3, idle_timeout: 20, connect_timeout: 8, prepare: false });
   }
 
   private init() {
