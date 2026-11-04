@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { type Pulse, pulseItems, STATIC_TICKER } from "@/lib/pulse";
 import { prefersReducedMotion, scrambleTo } from "@/lib/scramble";
 
 interface NavLink {
@@ -30,7 +31,6 @@ const GUARD: NavLink[] = [
   { href: "/scan", label: "Scan" },
 ];
 
-const TICKER = ["Free, no wallet needed", "Reads what your agent reads", "Guard ships as one CLI"];
 
 export function Nav() {
   const path = usePathname();
@@ -39,6 +39,19 @@ export function Nav() {
   const logo = useRef<HTMLCanvasElement>(null);
   const prog = useRef<HTMLElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [ticker, setTicker] = useState<string[]>(STATIC_TICKER);
+
+  // Real numbers for the ticker (last crawl, live Guard activity) when they exist. Any failure just leaves the standing lines.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/pulse")
+      .then((r) => (r.ok ? (r.json() as Promise<Pulse>) : null))
+      .then((p) => alive && p && setTicker(pulseItems(p)))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   // dotted-ring logo
   useEffect(() => {
@@ -158,7 +171,7 @@ export function Nav() {
       </div>
       <div className="ticker" aria-hidden="true">
         <div className="ticker-track">
-          {[...TICKER, ...TICKER].map((t, i) => (
+          {[...ticker, ...ticker].map((t, i) => (
             <span key={i}>{t}</span>
           ))}
         </div>
