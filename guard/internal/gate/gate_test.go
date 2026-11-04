@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
-	"github.com/sentinyx/guard/internal/trace"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/trace"
 )
 
 type errSrc struct{}

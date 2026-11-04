@@ -12,10 +12,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/sentinyx/guard/internal/evm"
-	"github.com/sentinyx/guard/internal/gate"
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/evm"
+	"github.com/Shikhyy/sentinyx/guard/internal/gate"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 const maxBody = 1 << 20

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 type Decision string

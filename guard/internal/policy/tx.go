@@ -3,8 +3,8 @@ package policy
 import (
 	"math/big"
 
-	"github.com/sentinyx/guard/internal/evm"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/evm"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 var unlimited = new(big.Int).Lsh(big.NewInt(1), 255)

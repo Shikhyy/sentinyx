@@ -12,9 +12,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/sentinyx/guard/internal/gate"
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/gate"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 type Proxy struct {

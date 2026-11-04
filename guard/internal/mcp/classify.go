@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 func set(s ...string) map[string]bool {

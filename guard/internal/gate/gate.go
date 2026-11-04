@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/trace"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/trace"
 )
 
 type Gate struct {

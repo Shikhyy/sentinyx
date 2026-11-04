@@ -12,10 +12,10 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/sentinyx/guard/internal/gate"
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
-	"github.com/sentinyx/guard/internal/trace"
+	"github.com/Shikhyy/sentinyx/guard/internal/gate"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/trace"
 )
 
 const (

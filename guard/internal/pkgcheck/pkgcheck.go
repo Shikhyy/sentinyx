@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
 )
 
 var nameRe = regexp.MustCompile(`^(?:@[a-z0-9~-][a-z0-9._~-]*/)?[a-z0-9~-][a-z0-9._~-]*$`)

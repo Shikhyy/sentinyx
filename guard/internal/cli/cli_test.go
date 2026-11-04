@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sentinyx/guard/internal/prov"
-	"github.com/sentinyx/guard/internal/trace"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/trace"
 )
 
 const (
@@ -125,5 +125,34 @@ func TestUsage(t *testing.T) {
 	}
 	if code, _ := run(t, "check", "tx", "0x00", "--allow", "notanaddress", "--trace", "-"); code != 3 {
 		t.Fatalf("bad --allow must fail closed, got %d", code)
+	}
+}
+
+func TestVersionCommand(t *testing.T) {
+	for _, arg := range []string{"version", "--version", "-v"} {
+		var out, errb strings.Builder
+		if code := Main([]string{arg}, &out, &errb); code != 0 {
+			t.Fatalf("%s: exit %d, want 0 (stderr %q)", arg, code, errb.String())
+		}
+		got := out.String()
+		if !strings.HasPrefix(got, "sentinyx ") || !strings.Contains(got, "go") || !strings.Contains(got, "/") {
+			t.Fatalf("%s: unexpected output %q", arg, got)
+		}
+	}
+}
+
+func TestVersionUsesReleaseValue(t *testing.T) {
+	old := Version
+	defer func() { Version = old }()
+	Version = "v9.9.9"
+	if got := versionString(); !strings.HasPrefix(got, "sentinyx v9.9.9 (") {
+		t.Fatalf("release version not used: %q", got)
+	}
+}
+
+func TestUnknownCommandStillFails(t *testing.T) {
+	var out, errb strings.Builder
+	if code := Main([]string{"nope"}, &out, &errb); code != 64 {
+		t.Fatalf("exit %d, want 64", code)
 	}
 }

@@ -16,14 +16,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sentinyx/guard/internal/evm"
-	"github.com/sentinyx/guard/internal/gate"
-	"github.com/sentinyx/guard/internal/mcp"
-	"github.com/sentinyx/guard/internal/pkgcheck"
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
-	"github.com/sentinyx/guard/internal/rpc"
-	"github.com/sentinyx/guard/internal/trace"
+	"github.com/Shikhyy/sentinyx/guard/internal/evm"
+	"github.com/Shikhyy/sentinyx/guard/internal/gate"
+	"github.com/Shikhyy/sentinyx/guard/internal/mcp"
+	"github.com/Shikhyy/sentinyx/guard/internal/pkgcheck"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/rpc"
+	"github.com/Shikhyy/sentinyx/guard/internal/trace"
 )
 
 const usage = `sentinyx - provenance guard for AI agents
@@ -32,6 +32,7 @@ const usage = `sentinyx - provenance guard for AI agents
   sentinyx rpc --upstream <url> [flags]              JSON-RPC proxy for Base
   sentinyx check pkg <name> [flags]                  npm registry + taint check
   sentinyx check tx <raw-tx-or-calldata> [flags]     decode and check a transaction
+  sentinyx version                                   print the build version
 
 common flags: --agent NAME  --trace FILE  --taint-file FILE  --allow 0xADDR (repeatable)
 exit codes for check: 0 allow, 2 deny, 3 hold (also for any internal error), 64 usage
@@ -95,6 +96,8 @@ func Main(args []string, stdout, stderr io.Writer) int {
 		return 64
 	}
 	switch args[0] {
+	case "version", "-v", "--version":
+		return printVersion(stdout)
 	case "wrap":
 		return wrap(args[1:], stderr)
 	case "rpc":

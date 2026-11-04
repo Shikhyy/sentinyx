@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sentinyx/guard/internal/evm"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/evm"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 const (

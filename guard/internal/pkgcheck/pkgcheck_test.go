@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sentinyx/guard/internal/policy"
-	"github.com/sentinyx/guard/internal/prov"
+	"github.com/Shikhyy/sentinyx/guard/internal/policy"
+	"github.com/Shikhyy/sentinyx/guard/internal/prov"
 )
 
 func TestCheck(t *testing.T) {
