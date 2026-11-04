@@ -441,3 +441,11 @@ html[data-sx="seen"] .loader{display:none}
 .embed code{font-family:var(--mono);font-size:.92em}
 .embed .codeblock code{font-size:12px}
 .embed-more{display:inline-block;margin-top:10px;font-size:12px;text-transform:uppercase;color:var(--graphite);min-height:44px;line-height:44px}
+
+.use-table-wrap{margin-top:22px;max-width:900px;overflow-x:auto}
+.use-table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px}
+.use-table th,.use-table td{text-align:left;padding:12px 14px;border-bottom:1px dashed var(--graphite);vertical-align:top}
+.use-table thead th{font-family:var(--mono);font-size:12px;font-weight:400;text-transform:uppercase;color:var(--ash);border-bottom:1.5px solid var(--graphite)}
+.use-table tbody th{font-weight:500}
+.use-table td{color:var(--ash)}
+.use-table td:last-child{color:var(--graphite);font-weight:500}

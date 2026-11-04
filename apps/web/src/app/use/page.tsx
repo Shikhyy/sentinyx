@@ -59,8 +59,17 @@ const USERS = [
   },
 ];
 
+const COMPARE: { what: string; explorer: string; scanner: string; us: string }[] = [
+  { what: "Shows a token's metadata text", explorer: "Yes, as raw text", scanner: "Usually not", us: "Yes, every field an agent reads" },
+  { what: "Flags text written for AI agents", explorer: "No", scanner: "No", us: "Yes" },
+  { what: "Decodes hidden characters", explorer: "No", scanner: "No", us: "Yes, then scans what they say" },
+  { what: "Gives a program a yes or no", explorer: "No", scanner: "For rug and honeypot checks", us: "allow, hold or deny" },
+  { what: "Stops the agent acting on it", explorer: "No", scanner: "No", us: "Guard" },
+];
+
 const PLAN = [
   { when: "Now", text: "Free and public. No account and no wallet. Scans are limited to about ten new ones a minute per IP; answers we already have are free." },
+  { when: "How it pays", text: "Free scans and open data stay free. The people who would pay are teams running agents with real funds: higher limits, alerts and a hosted Guard with approvals. That is a plan, not something for sale today." },
   { when: "Next", text: "API keys with higher limits, alerts when a token you care about changes, and the language-model second opinion on by default." },
   { when: "Later", text: "Guard with an approval channel, so a held action can be allowed by a person, and more chains." },
 ];
@@ -122,6 +131,34 @@ export default function UsePage() {
         <div className="use-code">
           <CodeBlock label="shell" code={GUARD} />
         </div>
+      </section>
+
+      <section className="page use-section" aria-labelledby="diff-h">
+        <h2 id="diff-h" className="h-small">Why not what already exists</h2>
+        <p className="sub">Explorers show the text and scanners check how a token behaves. Neither asks whether the text is written for a machine.</p>
+        <div className="use-table-wrap">
+          <table className="use-table">
+            <thead>
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">Block explorer</th>
+                <th scope="col">Token security scanner</th>
+                <th scope="col">Sentinyx</th>
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARE.map((r) => (
+                <tr key={r.what}>
+                  <th scope="row">{r.what}</th>
+                  <td>{r.explorer}</td>
+                  <td>{r.scanner}</td>
+                  <td>{r.us}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="reading-note">Typical behaviour of each kind of tool; individual products vary.</p>
       </section>
 
       <section className="page use-section" aria-labelledby="plan-h">
