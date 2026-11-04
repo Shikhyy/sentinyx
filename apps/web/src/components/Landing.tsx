@@ -48,6 +48,12 @@ export function Landing() {
             </span>
             Scroll to zoom in
           </div>
+          {/* Shown while the disc fills the screen, so the zoom never goes blank. Decorative: the next section says it properly. */}
+          <div className="enter" aria-hidden="true">
+            <span className="mono">Scanning a token</span>
+            <p>Here is everything an agent reads before it swaps.</p>
+            <span className="mono">Keep scrolling ↓</span>
+          </div>
           <div className="legend mono">
             <span>
               <b>Hidden order</b> lit by the sweep

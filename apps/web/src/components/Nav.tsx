@@ -148,6 +148,10 @@ export function Nav() {
             );
           })}
         </div>
+        {/* The name fills the right of the bar. The logo link above is the accessible way home, so this is a mouse convenience only. */}
+        <Link className="nav-name" href="/" tabIndex={-1} aria-hidden="true">
+          Sentinyx
+        </Link>
       </div>
       <div className="progress" aria-hidden="true">
         <i ref={prog} />

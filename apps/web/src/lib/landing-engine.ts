@@ -475,6 +475,8 @@ export function initLanding(root: HTMLElement): () => void {
     Q = ease(clamp(P / 0.3, 0, 1));
     stage.style.setProperty("--p", P.toFixed(3));
     stage.style.setProperty("--q", Q.toFixed(3));
+    // How far the disc has grown: drives the "enter" message that fills the screen at the end of the zoom.
+    stage.style.setProperty("--s", (narrow() || reduce ? 0 : ease(clamp((P - 0.32) / 0.68, 0, 1))).toFixed(3));
     seqP = progressOf(seq);
     scrub();
     bands();
