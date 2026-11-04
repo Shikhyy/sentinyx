@@ -7,7 +7,20 @@ import { ScanPanel } from "./ScanPanel";
 
 export function Landing() {
   const root = useRef<HTMLElement>(null);
-  useEffect(() => initLanding(root.current!), []);
+  useEffect(() => {
+    // The hero is a scroll-driven zoom: coming back to it half-way through (a reload restores the scroll position) shows a blank disc.
+    // Start at the top unless the link points at a section.
+    const prev = history.scrollRestoration;
+    if (!location.hash) {
+      history.scrollRestoration = "manual";
+      scrollTo(0, 0);
+    }
+    const stop = initLanding(root.current!);
+    return () => {
+      history.scrollRestoration = prev;
+      stop?.();
+    };
+  }, []);
 
   return (
     <main id="main" ref={root}>
