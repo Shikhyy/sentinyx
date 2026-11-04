@@ -376,3 +376,6 @@ footer.site{background:var(--night);color:var(--night-ink);overflow:hidden}
 .ticket-stub::before,.ticket-stub::after{content:"";position:absolute;top:-12px;width:23px;height:23px;border-radius:50%;background:var(--bone);border:1.5px solid var(--graphite)}
 .ticket-stub::before{left:-13px;clip-path:inset(0 0 0 50%)}
 .ticket-stub::after{right:-13px;clip-path:inset(0 50% 0 0)}
+
+/* The timeline's labels need room the axis doesn't have on a phone; the tick itself still links to its trace. */
+@media (max-width:640px){.tick .tl{display:none}}
