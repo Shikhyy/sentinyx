@@ -6,11 +6,13 @@ export const metadata: Metadata = {
   description: "Paste a Base contract, an NFT or a name and see every field an AI agent would read.",
 };
 
-export default function ScanPage() {
+export default async function ScanPage({ searchParams }: { searchParams: Promise<{ target?: string | string[] }> }) {
+  const q = (await searchParams).target;
+  const initial = typeof q === "string" && q.length <= 300 ? q : undefined;
   return (
     <main id="main" className="page">
       <div className="page-grid">
-        <ScanPanel>
+        <ScanPanel initial={initial}>
           <span className="kicker mono">Scan</span>
           <h1 className="title" style={{ marginTop: 12 }}>
             What would your agent read?

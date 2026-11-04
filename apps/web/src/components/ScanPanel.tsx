@@ -32,17 +32,22 @@ function Pending() {
  * Scan input plus the receipt it fills. `inline` shows the result in place (landing page);
  * otherwise a finished scan navigates to its shareable report page.
  */
-export function ScanPanel({ inline = false, children }: { inline?: boolean; children?: React.ReactNode }) {
+export function ScanPanel({ inline = false, initial, children }: { inline?: boolean; initial?: string; children?: React.ReactNode }) {
   const router = useRouter();
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const abort = useRef<AbortController | null>(null);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initial ?? "");
   const [chain, setChain] = useState<ChainChoice>("auto");
   const [state, setState] = useState<State>({ s: "idle" });
   const [slow, setSlow] = useState(false);
 
   useEffect(() => () => abort.current?.abort(), []);
+  // A link like /scan?target=0x… (from a badge or a shared message) runs the scan straight away.
+  useEffect(() => {
+    if (initial) void run(initial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (state.s !== "loading") {
       setSlow(false);
