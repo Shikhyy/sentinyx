@@ -126,3 +126,13 @@ export const kindLabel = (k: ScanReport["kind"]) =>
   ({ erc20: "ERC-20", erc721: "ERC-721", erc1155: "ERC-1155", contract: "Contract", name: "Name" })[k];
 
 export const chainLabel = (c: ScanReport["chain"]) => (c === "base-sepolia" ? "Base Sepolia" : "Base");
+
+/** How hidden text is veiled before someone chooses to decode it: a bar of blocks as long as the text (capped) and a plain count. */
+export function veilFor(text: string): { bar: string; chars: number; caption: string } {
+  const chars = [...text].length;
+  return {
+    bar: "▒".repeat(Math.max(1, Math.min(chars, 44))),
+    chars,
+    caption: `${chars} invisible character${chars === 1 ? "" : "s"}. People can't see this; a model can.`,
+  };
+}

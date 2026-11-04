@@ -1,4 +1,5 @@
 import type { ScanReport } from "@sentinyx/scanner";
+import { HiddenText } from "./HiddenText";
 import { evidenceFor, sections, shortTarget, statusLabel, verdictWord, safeText } from "@/lib/report-view";
 
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -37,9 +38,7 @@ export function ReportReceipt({ report, className = "" }: { report: ScanReport; 
                 </div>
                 {evidenceFor(f).map((ev, j) =>
                   ev.type === "hidden" ? (
-                    <div key={j} className="r-quote static">
-                      <span className="qlabel">Hidden text (invisible to people)</span>“{ev.text}”
-                    </div>
+                    <HiddenText key={j} text={ev.text} />
                   ) : (
                     <div key={j} className="r-quote static">
                       “{ev.lead ? "…" : ""}

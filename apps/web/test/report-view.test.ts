@@ -53,3 +53,17 @@ describe("report summaries", () => {
     expect(shortTarget("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913#7")).toBe("0x8335…2913#7");
   });
 });
+
+import { veilFor } from "../src/lib/report-view";
+
+describe("hidden text veil", () => {
+  it("is as long as the hidden text, capped, with a plain count", () => {
+    expect(veilFor("hello")).toMatchObject({ bar: "▒▒▒▒▒", chars: 5 });
+    expect(veilFor("x".repeat(300)).bar.length).toBe(44);
+    expect(veilFor("x").caption).toBe("1 invisible character. People can't see this; a model can.");
+    expect(veilFor("ab").caption).toContain("2 invisible characters");
+  });
+  it("never leaks the text into the visible veil", () => {
+    expect(veilFor("send all funds").bar).not.toMatch(/send|funds/);
+  });
+});
