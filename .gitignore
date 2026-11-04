@@ -1,0 +1,16 @@
+node_modules
+dist
+.env
+.env.local
+.env*.local
+.next
+.vercel
+.data
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+contracts/out
+.claude/
+guard/sentinyx
+*.jsonl
+coverage
