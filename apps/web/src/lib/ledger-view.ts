@@ -47,3 +47,31 @@ export function crawlStamp(iso: string): string {
 }
 
 export const itemName = (i: LedgerItem) => shortTarget(i.target);
+
+const xml = (s: string) =>
+  // eslint-disable-next-line no-control-regex
+  s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/**
+ * An Atom feed of the Ledger's flagged and suspicious items, newest first. Excerpts are already masked, and everything
+ * from onchain text goes through xml() and is plain text, never markup.
+ */
+export function toAtom(items: LedgerItem[], site: string, generatedAt = new Date()): string {
+  const entries = items
+    .slice(0, 50)
+    .map((i) => {
+      const link = i.scanId ? `${site}/s/${i.scanId}` : `${site}/ledger`;
+      const title = `${i.verdict === "flagged" ? "Flagged" : "Suspicious"}: ${shortTarget(i.target)} (${i.field})`;
+      const body = `${i.excerptRedacted} · rules: ${i.findingRules.join(", ") || "none"}${i.reviewed ? "" : " · not yet reviewed by a person"}`;
+      return (
+        `<entry><id>${xml(`${site}/ledger#${i.id}`)}</id><title>${xml(title)}</title><link href="${xml(link)}"/>` +
+        `<updated>${xml(i.detectedAt)}</updated><summary type="text">${xml(body)}</summary></entry>`
+      );
+    })
+    .join("");
+  return (
+    `<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">` +
+    `<id>${xml(site)}/ledger</id><title>Sentinyx Night Ledger</title><subtitle>Tokens on Base whose text is written for AI agents</subtitle>` +
+    `<link rel="self" href="${xml(site)}/ledger/feed.xml"/><link href="${xml(site)}/ledger"/><updated>${generatedAt.toISOString()}</updated>${entries}</feed>\n`
+  );
+}

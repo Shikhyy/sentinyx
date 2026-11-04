@@ -53,3 +53,25 @@ describe("cron route", { timeout: 30_000 }, () => {
     expect((await call("s3cret-value")).status).toBe(401);
   });
 });
+
+import { toAtom } from "../src/lib/ledger-view";
+
+describe("Atom feed", () => {
+  const item = {
+    id: "a1", target: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", kind: "erc20", field: "Contract metadata", fieldLabel: "x",
+    verdict: "flagged" as const, excerptRedacted: `</summary><script>alert(1)</script> & "quoted" \u0001`, findingRules: ["combo.drain"],
+    detectedAt: "2026-11-04T03:00:00.000Z", reviewed: false, label: null, scanId: "s1", crawlId: 1,
+  };
+
+  it("escapes onchain text so it can never become markup", () => {
+    const xmlText = toAtom([item], "https://x.test");
+    expect(xmlText).not.toContain("<script>");
+    expect(xmlText).toContain("&lt;script&gt;");
+    expect(xmlText).not.toContain("\u0001");
+    expect(xmlText).toContain('<link href="https://x.test/s/s1"/>');
+  });
+
+  it("is a valid empty feed with no items", () => {
+    expect(toAtom([], "https://x.test")).toContain("<feed");
+  });
+});
