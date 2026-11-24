@@ -21,7 +21,7 @@ Sentinyx finds instructions hidden in onchain text that AI agents read, and stop
 
 ## Contents
 
-[The problem](#the-problem) · [What is in it](#what-is-in-it) · [How it fits together](#how-it-fits-together) · [Scan](#scan) · [Night Ledger](#night-ledger) · [Guard](#guard) · [Attack Lab](#attack-lab) · [Use it from code](#use-it-from-code) · [The demo coin](#the-demo-coin) · [Run it](#run-it) · [Honest limits](#honest-limits) · [What is measured](#what-is-measured-so-far) · [Safety](#safety) · [Roadmap](#roadmap) · [Citations](#citations)
+[The problem](#the-problem) · [What is in it](#what-is-in-it) · [How it fits together](#how-it-fits-together) · [Scan](#scan) · [Night Ledger](#night-ledger) · [Guard](#guard) · [Attack Lab](#attack-lab) · [Use it from code](#use-it-from-code) · [The demo coin](#the-demo-coin) · [Run it](#run-it) · [Honest limits](#honest-limits) · [What is measured](#what-is-measured-so-far) · [Safety](#safety) · [Roadmap](#roadmap) · [License](#license) · [Citations](#citations)
 
 ## The problem
 
@@ -369,6 +369,10 @@ flowchart LR
 ```
 
 Plans, not promises. Today Sentinyx is the first line of defence, not a complete one.
+
+## License
+
+[MIT](LICENSE). The Geist fonts bundled in `apps/web/src/assets/fonts` are under their own license, [SIL Open Font License 1.1](apps/web/src/assets/fonts/LICENSE-Geist.txt).
 
 ## Citations
 

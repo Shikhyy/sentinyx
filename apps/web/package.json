@@ -1,6 +1,7 @@
 {
   "name": "@sentinyx/web",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "predev": "npm run build -w @sentinyx/scanner && npm run build -w @sentinyx/store && npm run build -w @sentinyx/crawler",

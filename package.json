@@ -1,6 +1,7 @@
 {
   "name": "sentinyx",
   "private": true,
+  "license": "MIT",
   "engines": { "node": ">=22" },
   "workspaces": ["packages/*", "apps/*", "contracts"],
   "scripts": {
